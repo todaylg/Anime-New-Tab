@@ -6,7 +6,7 @@ Anime New Tab插件使你在Chrome新建标签页时看到的不再是呆板的�
 
 ### 主要功能
 
-1. 动漫主题的随机背景（图源爬自 [AnimePictures](https://anime-pictures.net) 图片参数：>=1920x1080 16:9），并可在插件内直接下载图片
+1. 动漫主题的随机背景（图源爬自 [AnimePictures](https://anime-pictures.net) 图片参数：>=1920x1080 16:9  Tips:图片质量高但是相应的加载时间会长一点），并可在插件内直接下载图片
 2. 新番时间表（数据来源B站）
 3. 自动获取所在城市及温度
 4. TodoList

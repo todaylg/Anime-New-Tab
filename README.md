@@ -16,7 +16,7 @@ Anime New Tab插件使你在Chrome新建标签页时看到的不再是呆板的�
 ### 截图
 ![image](https://github.com/todaylg/Anime-New-Tab/blob/master/introduceImg/screenCut1.png)
 
-![image](https://github.com/todaylg/Anime-New-Tab/blob/master/introduceImg/screenCut1.png)
+![image](https://github.com/todaylg/Anime-New-Tab/blob/master/introduceImg/screenCut2.png)
 
 
 Chrome安装方法：

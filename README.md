@@ -14,9 +14,9 @@ Anime New Tab插件使你在Chrome新建标签页时看到的不再是呆板的�
 6. 时间显示（可隐藏，以方便有舔屏习惯的用户prpr）
 
 ### 截图
-![image](https://github.com/todaylg/Anime-New-Tab/master/introduceImg/screenCut1.png)
+![image](https://github.com/todaylg/Anime-New-Tab/blob/master/introduceImg/screenCut1.png)
 
-![image](https://github.com/todaylg/Anime-New-Tab/master/introduceImg/screenCut2.pn)
+![image](https://github.com/todaylg/Anime-New-Tab/blob/master/introduceImg/screenCut1.png)
 
 
 Chrome安装方法：

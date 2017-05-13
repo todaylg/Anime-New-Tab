@@ -401,7 +401,9 @@ function getBangumi(){
 					weekday[temp.weekday].push(temp);
 				}
 				//save
-				readBugumiData(day);
+				chrome.storage.local.set({"weekday":weekday},function(){
+					readBugumiData(day);
+				});
 			},
 			error:function(e) {
 				console.log(e)

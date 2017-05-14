@@ -424,7 +424,7 @@ function readBugumiData(day){
 		if(val.weekday[day]!=undefined){
 			$.each(val.weekday[day], function(index, el){
 				var html = '<li class="bangumiItem"><div class="bangumiContain">';
-				html += '<a class="bangumiPreview" href="'+el.url+'">';
+				html += '<a target="_blank" class="bangumiPreview" href="'+el.url+'">';
 				html += '<img src="'+el.cover+'" alt="'+el.title+'"></a>';
 				html += '<div class="bangumIntro">';
 				html += '<a href="'+el.url+'" target="_blank" title="'+el.title+'">';

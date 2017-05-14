@@ -7,6 +7,10 @@ function Init(){
 				$.getJSON('./../backgrounds/imageData.json', function(data) {
 					chrome.storage.local.set({"imageDataJson":data});
 				});
+				$('#loading').remove();
+				$('#loadingPage').fadeOut(2000, function() {
+					$(this).remove();
+				});
 			}else{
 				var data = val.imageDataJson;
 				getRandomImg(data);

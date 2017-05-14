@@ -21,10 +21,9 @@ Anime New Tab插件使你在Chrome新建标签页时看到的不再是呆板的�
 
 Chrome安装方法：
 
-> 1. 下载[Anime-New-Tab](https://github.com/todaylg/Anime-New-Tab/)
+> 1. 下载[Anime-New-Tab](https://github.com/todaylg/Anime-New-Tab/files/999319/Anime-New-Tab.crx.zip)
 > 2. 打开Chrome，地址栏输入: `chrome://extensions/`
-> 3. 勾选Developer Mode（开发者模式）
-> 4. 选择Load unpacked extension...（加载已解压的扩展程序）然后定位到刚才解压的文件夹，确定
+> 3. 直接将解压后的打包程序Anime-New-Tab.crx拖入浏览器即可
 
 ## License
 

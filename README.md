@@ -26,6 +26,3 @@ Chrome安装方法：
  2. 打开Chrome，地址栏输入: `chrome://extensions/`
  3. 直接将解压后的打包程序Anime-New-Tab.crx拖入浏览器即可
 
-## License
-
-[MIT License] © todaylg

@@ -4,11 +4,11 @@ function Init(){
 	if(navigator.onLine){//保证在线的情况
 		if(chrome.storage.local.get("imageDataJson",function(val){
 			if(val.imageDataJson==undefined){
-				$.getJSON('./../backgrounds/imageData.json', function(data) {
+				$.getJSON("./../backgrounds/imageData.json", function(data) {
 					chrome.storage.local.set({"imageDataJson":data});
 				});
-				$('#loading').remove();
-				$('#loadingPage').fadeOut(2000, function() {
+				$("#loading").remove();
+				$("#loadingPage").fadeOut(2000, function() {
 					$(this).remove();
 				});
 			}else{
@@ -18,8 +18,8 @@ function Init(){
 		}));
 
 	}else{//离线的情况
-		$('#loading').remove();
-		$('#loadingPage').fadeOut(2000, function() {
+		$("#loading").remove();
+		$("#loadingPage").fadeOut(2000, function() {
 			$(this).remove();
 		});
 	}
@@ -53,52 +53,52 @@ function getRandomImg(data){
 
 function getTime(){
 	Date.prototype.Format = function (fmt) {
-	    var o = { //key为正则匹配的内容  value为替换内容
-	        "M+": this.getMonth() + 1, //月份 0代表1月
-	        "d+": this.getDate(), //日
-	        "h+": this.getHours(), //小时
-	        "m+": this.getMinutes(), //分
-	        "s+": this.getSeconds() //秒
-	    };
-	    if (/(y+)/.test(fmt)) //y 用来表示年，+匹配前面一个表达式1次或者多次
-	        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length)); //替换年份  str.substr(start[, length])
-	    for (var k in o) //替换其他位置
-	    	if (new RegExp("(" + k + ")").test(fmt))
-	            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length))); //只传一个（比如yyyy-M-d）,直接替换。substr()的巧妙使用解决了多个（一般是两个，就比如下面的使用例子）时的情况（在前面添加00是为了在0个匹配的情况的显示00）。
-	        return fmt;
-	    };
-	    var weekday=[];
-	    weekday[0]="周日";
-	    weekday[1]="周一";
-	    weekday[2]="周二";
-	    weekday[3]="周三";
-	    weekday[4]="周四";
-	    weekday[5]="周五";
-	    weekday[6]="周六";
+		var o = { //key为正则匹配的内容  value为替换内容
+			"M+": this.getMonth() + 1, //月份 0代表1月
+			"d+": this.getDate(), //日
+			"h+": this.getHours(), //小时
+			"m+": this.getMinutes(), //分
+			"s+": this.getSeconds() //秒
+		};
+		if (/(y+)/.test(fmt)) //y 用来表示年，+匹配前面一个表达式1次或者多次
+			fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length)); //替换年份  str.substr(start[, length])
+		for (var k in o) //替换其他位置
+			if (new RegExp("(" + k + ")").test(fmt))
+				fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length))); //只传一个（比如yyyy-M-d）,直接替换。substr()的巧妙使用解决了多个（一般是两个，就比如下面的使用例子）时的情况（在前面添加00是为了在0个匹配的情况的显示00）。
+		return fmt;
+	};
+	var weekday=[];
+	weekday[0]="周日";
+	weekday[1]="周一";
+	weekday[2]="周二";
+	weekday[3]="周三";
+	weekday[4]="周四";
+	weekday[5]="周五";
+	weekday[6]="周六";
 
-	    var date = $('#date');
-	    var time = $('#time');
+	var date = $("#date");
+	var time = $("#time");
 
-	    var updateClock = function(){
-	    	var myDate = new Date();
-	    	var week = weekday[myDate.getDay()];
-	    	date.text(myDate.Format("yyyy年MM月dd日")+' '+week);
-	    	time.text(myDate.Format("hh:mm"));
-	    }
-	    updateClock();
-	    setInterval(updateClock,10000);
-	}
+	var updateClock = function(){
+		var myDate = new Date();
+		var week = weekday[myDate.getDay()];
+		date.text(myDate.Format("yyyy年MM月dd日")+' '+week);
+		time.text(myDate.Format("hh:mm"));
+	};
+	updateClock();
+	setInterval(updateClock,10000);
+}
 
-	function initEvent(){
+function initEvent(){
 	//Search  Todo:setting=>google
 	$("#searchInput").keydown(function(event){
 		if(event.which===13){
 			if($('#searchInput').val()!=''){
-	    		//search
-	    		var searchUrl = 'https://www.baidu.com/s?wd='+$('#searchInput').val();
-	    		location.href=searchUrl;
-	    	}
-	    }
+			//search
+				var searchUrl = 'https://www.baidu.com/s?wd='+$('#searchInput').val();
+				location.href=searchUrl;
+			}
+		}
 	});
 
 	$('#download').click(function(event) {
@@ -107,7 +107,7 @@ function getTime(){
 				url:currentImg,
 				conflictAction:'uniquify',
 				saveAs:false
-			})
+			});
 		}
 	});
 
@@ -127,7 +127,7 @@ function getTime(){
 
 	$('#todoList').on('change','.todo-item-checkbox',function(event){
 		saveTasks();
-	})
+	});
 
 	$('#todoList').click(function(event) {
 		if(event.target.className=='deleteItem'){
@@ -189,8 +189,8 @@ function getTime(){
 		$('.send').animate({
 			opacity: 0,
 			top: -20},
-			1000, function() {
-				$('.send').remove()
+		1000, function() {
+			$('.send').remove()
 		});
 		if($('#Animation').is(":animated")){
 			return;
@@ -201,15 +201,15 @@ function getTime(){
 				$("#Animation").animate({
 					opacity: 1,
 					marginTop: 0},
-					800);
+				800);
 			}else{
 				//close
 				$("#Animation").animate({
 					opacity: 0,
 					marginTop: '-100%'},
-					600,function(){
-						$("#Animation").css('display','none');
-					});
+				600,function(){
+					$("#Animation").css('display','none');
+				});
 			}
 		}
 	});
@@ -226,17 +226,17 @@ function getWeatherInfo(){
 				temperature: json.data.wendu,
 				tips:json.data.ganmao,
 				aqi:json.data.aqi
-	      // forecast:json.data.forecast //Todo
-	  }
-	  updateWeather(data);
-	});
+			// forecast:json.data.forecast //Todo
+			};
+			updateWeather(data);
+		});
 	});
 
 	var updateWeather = function(weatherData){
 		$('#city').text(weatherData.city);
 		$('#temperature').text(weatherData.temperature);
 		$('#aqi').text(weatherData.aqi);
-	}
+	};
 }
 
 function loadTasks(){
@@ -256,7 +256,7 @@ function loadTasks(){
 		}
 		
 		$('#todoCount').text(todoCount+'  Todo');
-	})
+	});
 }
 
 function saveTasks(){
@@ -309,8 +309,8 @@ function Translate(){
 			success:function(json){
 				cb(json);
 			}
-		})
-	}
+		});
+	};
 
 	$('#translateInput').bind("keyup change",function(event){
 		var query = $('#translateInput').val();
@@ -349,19 +349,19 @@ function Translate(){
 						});
 						result.text(restr);
 					}
-				})
+				});
 			});
 		}else{
 			$('#translateResult').text('');
 		}
-	})
+	});
 }
 
 function getBangumi(){
 	//保存当天日期，判断是第二天了再重新发起请求更新数据来源
 	//取得数据后按更新时间分组，并显示当天更新的番剧列表
 	var day = new Date;
-			day = day.getDay();
+	day = day.getDay();
 	chrome.storage.local.get("today",function(val){
 		if(val.today!=undefined){
 			var today = val.today;
@@ -369,15 +369,14 @@ function getBangumi(){
 				getData();
 			}else{
 				//初始化当天
-			 	readBugumiData(day);
+				readBugumiData(day);
 			}
 		}else{
 			chrome.storage.local.set({"today":day});
 			getData();
 		}
-	})
+	});
 	var getData = function(){
-		var bangumiData;
 		$.ajax({
 			url: 'http://bangumi.bilibili.com/jsonp/timeline_v2.ver?callback=timeline',
 			type: 'get',
@@ -401,7 +400,7 @@ function getBangumi(){
 						title:list[i].title,
 						url:'http://www.bilibili.com'+list[i].url,
 						weekday:list[i].weekday
-					}
+					};
 					weekday[temp.weekday].push(temp);
 				}
 				//save
@@ -410,14 +409,14 @@ function getBangumi(){
 				});
 			},
 			error:function(e) {
-				console.log(e)
+				console.log(e);
 			}
 		});
- 	}
+	};
 }
 
 function readBugumiData(day){
- 	chrome.storage.local.get("weekday",function(val){
+	chrome.storage.local.get("weekday",function(val){
 		$('#tab'+day).attr('checked','true');
 		$('#tab'+day).attr('data-insert','yes');
 		var list = $('#content'+day+' .bangumiList');

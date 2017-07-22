@@ -1,22 +1,35 @@
-var catchFirstUrl = 'https://anime-pictures.net';
+var catchFirstUrl = 'https://anime-pictures.net',
+	bing_link = 'https://bing.ioliu.cn/v1/rand';
 var currentImg;
 function Init(){
-	if(navigator.onLine){//保证在线的情况
-		if(chrome.storage.local.get("imageDataJson",function(val){
-			if(val.imageDataJson==undefined){
-				$.getJSON("./../backgrounds/imageData.json", function(data) {
-					chrome.storage.local.set({"imageDataJson":data});
-				});
-				$("#loading").remove();
-				$("#loadingPage").fadeOut(2000, function() {
-					$(this).remove();
+	if(navigator.onLine){
+		//todo
+		chrome.storage.local.get("bossComing",function(val){
+			if(val.bossComing!=undefined){
+				chrome.storage.local.get("imageDataJson",function(val){
+					if(val.imageDataJson==undefined){
+						$.getJSON("./../backgrounds/imageData.json", function(data) {
+							chrome.storage.local.set({"imageDataJson":data});
+						});
+						$("#loading").remove();
+						$("#loadingPage").fadeOut(2000, function() {
+							$(this).remove();
+						});
+					}else{
+						var data = val.imageDataJson;
+						getRandomImg(data);
+					}
 				});
 			}else{
-				var data = val.imageDataJson;
-				getRandomImg(data);
+				$('<img/>').attr('src',bing_link).load(function() {
+					$(this).remove();
+					$("#background").css('backgroundImage','url('+bing_link+')');
+					$('#loadingPage').fadeOut(2000, function() {
+						$(this).remove();
+					});
+				});
 			}
-		}));
-
+		});
 	}else{//离线的情况
 		$("#loading").remove();
 		$("#loadingPage").fadeOut(2000, function() {

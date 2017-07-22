@@ -5,6 +5,9 @@
     "chrome_url_overrides": {
       "newtab": "index.html"
     },
+    "background": {
+      "scripts": [ "./js/event.js" ]
+   },
     "name": "AnimeNewTab",
     "offline_enabled": true,
     "browser_action": {

@@ -3,9 +3,8 @@ var catchFirstUrl = 'https://anime-pictures.net',
 var currentImg;
 function Init(){
 	if(navigator.onLine){
-		//todo
-		chrome.storage.local.get("bossComing",function(val){
-			if(val.bossComing!=undefined){
+		chrome.storage.local.get("bossComming",function(val){
+			if(val.bossComming==undefined || val.bossComming == false){
 				chrome.storage.local.get("imageDataJson",function(val){
 					if(val.imageDataJson==undefined){
 						$.getJSON("./../backgrounds/imageData.json", function(data) {
@@ -21,6 +20,7 @@ function Init(){
 					}
 				});
 			}else{
+				//家长模式
 				$('<img/>').attr('src',bing_link).load(function() {
 					$(this).remove();
 					$("#background").css('backgroundImage','url('+bing_link+')');
@@ -63,7 +63,7 @@ function getRandomImg(data){
 		getRandomImg(data);
 	}
 }
-
+						
 function getTime(){
 	Date.prototype.Format = function (fmt) {
 		var o = { //key为正则匹配的内容  value为替换内容
@@ -225,6 +225,18 @@ function initEvent(){
 				});
 			}
 		}
+	});
+
+	//Boss comming
+	$('#changeTheme').click(function(event) {
+		chrome.storage.local.get("bossComming",function(val){
+			if(val.bossComming==undefined){
+				chrome.storage.local.set({"bossComming":true});
+			}else{
+				chrome.storage.local.set({"bossComming":!Boolean(val.bossComming)});
+			}
+		});
+		location.reload();
 	});
 }
 

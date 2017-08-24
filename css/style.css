@@ -198,21 +198,30 @@ html,body{
 }
 #bottom-left{
 	position: absolute;
-	color: black;
-	left: 20px;
-	bottom: 20px;
+	color: white;
+	left: 0px;
+	bottom: 0px;
+}
+#changeTheme{
+  font-size: 90%;
+  cursor: pointer;
+  padding-left: 15px;
+  color: rgba(255,255,255,1);
+  font-weight: 500;
+  line-height: 40px;
+  -webkit-transition: color .15s ease,text-shadow .15s ease;
 }
 
 #bottom-right span{
 	margin-left: 4px;
 	font-size: 90%;
 	cursor: pointer;
-    padding: 0 15px 0 0px;
-    color: rgba(255,255,255,1);
-    font-weight: 500;
-    line-height: 40px;
-    -webkit-transition: color .15s ease,text-shadow .15s ease;
-    user-select: none
+  padding-right: 15px;
+  color: rgba(255,255,255,1);
+  font-weight: 500;
+  line-height: 40px;
+  -webkit-transition: color .15s ease,text-shadow .15s ease;
+  user-select: none
 }
 
 #changeColor,#hidePanel{

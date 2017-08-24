@@ -12,6 +12,7 @@ Anime New Tab插件使你在Chrome新建标签页时看到的不再是呆板的�
 4. TodoList
 5. 百度翻译
 6. 时间显示（可隐藏，以方便有舔屏习惯的用户prpr）
+7. 添加家长模式，一键切换到自然风景(图源来自必应)，增进家庭和谐。
 
 ### 截图
 ![image](https://github.com/todaylg/Anime-New-Tab/blob/master/introduceImg/screenCut1.png)

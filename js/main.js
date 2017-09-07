@@ -1,9 +1,10 @@
 var catchFirstUrl = 'https://anime-pictures.net',
-	bing_link = 'https://bing.ioliu.cn/v1/rand';
+	bing_link = 'http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN';
 var currentImg;
 function Init(){
 	if(navigator.onLine){
 		chrome.storage.local.get("bossComming",function(val){
+			console.log(val.bossComming)
 			if(val.bossComming==undefined || val.bossComming == false){
 				chrome.storage.local.get("imageDataJson",function(val){
 					if(val.imageDataJson==undefined){
@@ -21,12 +22,20 @@ function Init(){
 				});
 			}else{
 				//家长模式
-				$('<img/>').attr('src',bing_link).load(function() {
-					$(this).remove();
-					$("#background").css('backgroundImage','url('+bing_link+')');
-					$('#loadingPage').fadeOut(2000, function() {
-						$(this).remove();
-					});
+				$.ajax({
+					url: bing_link,
+					type: 'GET',
+					dataType: 'json',
+					success:function(json){
+						var url = "http://www.bing.com"+json.images[0].url;
+						$('<img/>').attr('src',url).load(function() {
+							$(this).remove();
+							$("#background").css('backgroundImage','url('+url+')');
+							$('#loadingPage').fadeOut(2000, function() {
+								$(this).remove();
+							});
+						});
+					}
 				});
 			}
 		});

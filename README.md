@@ -1,7 +1,6 @@
 Anime New Tab
 ==================
 
-
 Anime New Tab插件使你在Chrome新建标签页时看到的不再是呆板的自然风景（而是萌萌哒(๑•ᴗ•๑)妹子），并且黑仪Sama还会告诉你新番的时间表，提醒你不要忘了这个季度的老婆~
 
 ### 主要功能
@@ -20,10 +19,5 @@ Anime New Tab插件使你在Chrome新建标签页时看到的不再是呆板的�
 ![image](https://github.com/todaylg/Anime-New-Tab/blob/master/introduceImg/screenCut2.png)
 
 
-Chrome安装方法：
-
-
- 1. 下载[Anime-New-Tab](http://opy0s6et9.bkt.clouddn.com/Anime-New-Tab.crx.zip),之后解压。
- 2. 打开Chrome，地址栏输入: `chrome://extensions/`
- 3. 直接将解压后的打包程序Anime-New-Tab.crx拖入浏览器即可
-
+安装方法：
+ [Chrome商店安装](https://chrome.google.com/webstore/detail/animenewtab/odnaojjllcjmpjkkcikfeoojakhdgdep?utm_source=chrome-ntp-icon)

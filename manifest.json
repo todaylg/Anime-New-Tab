@@ -1,23 +1,23 @@
 {
-    "manifest_version": 2,
-    "version": "1.0",
-    "description": "Chrome new tab page with animation background and some useful function",
-    "chrome_url_overrides": {
-      "newtab": "index.html"
-    },
-    "background": {
-      "scripts": [ "./js/event.js" ]
-   },
-    "name": "AnimeNewTab",
-    "offline_enabled": true,
-    "browser_action": {
-      "default_title": "AnimeNewTab"
-    },
-    "icons": {
-  		"16": "icon/16.png",
-  		"48": "icon/48.png",
-  		"128": "icon/128.png"
-  	},
-    "permissions": ["geolocation","downloads", "unlimitedStorage","http://*/", "https://*/","http://*/*","http://*.baidu.com/*", "https://anime-pictures.net/*","chrome://favicon/", "storage"],
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "manifest_version": 2,
+  "version": "1.2",
+  "description": "Random Anime Wallpaper New Tab Page With Some Useful Function",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "background": {
+    "scripts": [ "./js/event.js" ]
+ },
+  "name": "Random Anime Wallpaper",
+  "offline_enabled": true,
+  "browser_action": {
+    "default_title": "Random Anime Wallpaper"
+  },
+  "icons": {
+    "16": "icon/16.png",
+    "48": "icon/48.png",
+    "128": "icon/128.png"
+  },
+  "permissions": ["geolocation","downloads", "unlimitedStorage","http://*/", "https://*/","http://*/*","http://*.baidu.com/*", "https://anime-pictures.net/*","chrome://favicon/", "storage"],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

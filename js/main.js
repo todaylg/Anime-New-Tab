@@ -177,6 +177,7 @@ function initEvent() {
 				borderBottom: '3px solid black'
 			});;
 			$('#bottom-right span').css('color', 'black');
+			$('#bottom-left span').css('color', 'black');
 			$('#fontColor').css('color', 'white');
 		} else {
 			$('body').css('color', 'white');
@@ -185,6 +186,7 @@ function initEvent() {
 				borderBottom: '3px solid white'
 			});;
 			$('#bottom-right span').css('color', 'white');
+			$('#bottom-left span').css('color', 'white');
 			$('#fontColor').css('color', 'black');
 		}
 	});

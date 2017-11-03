@@ -1,17 +1,6 @@
 var catchFirstUrl = 'https://anime-pictures.net',
 	bing_link = 'http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN';
 var currentImg;
-<<<<<<< HEAD
-function Init(){
-	if(navigator.onLine){
-		chrome.storage.local.get("bossComming",function(val){
-			console.log(val.bossComming)
-			if(val.bossComming==undefined || val.bossComming == false){
-				chrome.storage.local.get("imageDataJson",function(val){
-					if(val.imageDataJson==undefined){
-						$.getJSON("./../backgrounds/imageData.json", function(data) {
-							chrome.storage.local.set({"imageDataJson":data});
-=======
 function Init() {
 	if (navigator.onLine) {
 		chrome.storage.local.get("bossComming", function (val) {
@@ -20,7 +9,6 @@ function Init() {
 					if (val.imageDataJson == undefined) {
 						$.getJSON("./../backgrounds/imageData.json", function (data) {
 							chrome.storage.local.set({ "imageDataJson": data });
->>>>>>> dev
 						});
 						$("#loading").remove();
 						$("#loadingPage").fadeOut(2000, function () {
@@ -33,29 +21,20 @@ function Init() {
 				});
 			} else {
 				//家长模式
-<<<<<<< HEAD
+
 				$.ajax({
 					url: bing_link,
 					type: 'GET',
 					dataType: 'json',
-					success:function(json){
-						var url = "http://www.bing.com"+json.images[0].url;
-						$('<img/>').attr('src',url).load(function() {
-							$(this).remove();
-							$("#background").css('backgroundImage','url('+url+')');
-							$('#loadingPage').fadeOut(2000, function() {
-								$(this).remove();
-							});
-						});
+					success: function (json) {
+						var url = "http://www.bing.com" + json.images[0].url;
+						var tempImage = new Image();
+						tempImage.src = url;
+						tempImage.onload = function () {
+							$("#background").css('backgroundImage', 'url(' + url + ')');
+							$('#loadingPage').fadeOut(2000);
+						};
 					}
-=======
-				$('<img/>').attr('src', bing_link).load(function () {
-					$(this).remove();
-					$("#background").css('backgroundImage', 'url(' + bing_link + ')');
-					$('#loadingPage').fadeOut(2000, function () {
-						$(this).remove();
-					});
->>>>>>> dev
 				});
 			}
 		});
@@ -83,22 +62,19 @@ function getRandomImg(data) {
 		currentImg = catchFirstUrl + data[index];
 		var tempImage = new Image();
 		tempImage.src = currentImg;
-		tempImage.onload= fin;
+		tempImage.onload = fin;
 
 		var finFlag = false;
-		setTimeout(function(){
-			if(!finFlag)fin();
-		},4000);
+		setTimeout(function () {
+			if (!finFlag) fin();
+		}, 4000);
 		//tempImage.attr('src', currentImg).load(console.log(123));
-		
+
 		function fin() {
-			if(finFlag)return;
+			if (finFlag) return;
 			finFlag = true;
-			tempImage.remove();
 			$("#background").css('backgroundImage', 'url(' + catchFirstUrl + data[index] + ')');
-			$('#loadingPage').fadeOut(2000, function () {
-				$(this).remove();
-			});
+			$('#loadingPage').fadeOut(2000);
 		}
 	} else {
 		getRandomImg(data);
@@ -294,9 +270,9 @@ function getWeatherInfo() {
 		$.getJSON(url, function (json, textStatus) {
 			var data = {
 				city: province + " " + city,
-				temperature: json.data?json.data.wendu:'',
-				tips: json.data?json.data.ganmao:'',
-				aqi: json.data?json.data.aqi:''
+				temperature: json.data ? json.data.wendu : '',
+				tips: json.data ? json.data.ganmao : '',
+				aqi: json.data ? json.data.aqi : ''
 				// forecast:json.data.forecast //Todo
 			};
 			updateWeather(data);

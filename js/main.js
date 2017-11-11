@@ -1,5 +1,6 @@
 var catchFirstUrl = 'https://anime-pictures.net',
-	bing_link = 'http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN';
+	//bing_link = 'http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN';
+	bing_link = 'https://bing.ioliu.cn/v1/rand';
 var currentImg;
 function Init() {
 	if (navigator.onLine) {
@@ -21,21 +22,28 @@ function Init() {
 				});
 			} else {
 				//家长模式
-
-				$.ajax({
-					url: bing_link,
-					type: 'GET',
-					dataType: 'json',
-					success: function (json) {
-						var url = "http://www.bing.com" + json.images[0].url;
-						var tempImage = new Image();
-						tempImage.src = url;
-						tempImage.onload = function () {
-							$("#background").css('backgroundImage', 'url(' + url + ')');
-							$('#loadingPage').fadeOut(2000);
-						};
-					}
-				});
+				//随机风景
+				var tempImage = new Image();
+				tempImage.src = bing_link;
+				tempImage.onload = function () {
+					$("#background").css('backgroundImage', 'url(' + bing_link + ')');
+					$('#loadingPage').fadeOut(2000);
+				};
+				//固定当日必应首页壁纸
+				// $.ajax({
+				// 	url: bing_link,
+				// 	type: 'GET',
+				// 	dataType: 'json',
+				// 	success: function (json) {
+				// 		var url = "http://www.bing.com" + json.images[0].url;
+				// 		var tempImage = new Image();
+				// 		tempImage.src = url;
+				// 		tempImage.onload = function () {
+				// 			$("#background").css('backgroundImage', 'url(' + url + ')');
+				// 			$('#loadingPage').fadeOut(2000);
+				// 		};
+				// 	}
+				// });
 			}
 		});
 	} else {//离线的情况

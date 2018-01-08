@@ -354,7 +354,39 @@ function addTask(taskContent) {
 	}
 }
 
+/**
+*
+* @param fn {Function}   实际要执行的函数
+* @param delay {Number}  延迟时间，也就是阈值，单位是毫秒（ms）
+*
+* @return {Function}     返回一个“去弹跳”了的函数
+*/
+function debounce(fn, delay) {
+
+	// 定时器，用来 setTimeout
+	var timer
+
+	// 返回一个函数，这个函数会在一个时间区间结束后的 delay 毫秒时执行 fn 函数
+	return function () {
+
+		// 保存函数调用时的上下文和参数，传递给 fn
+		var context = this
+		var args = arguments
+
+		// 每次这个返回的函数被调用，就清除定时器，以保证不执行 fn
+		clearTimeout(timer)
+
+		// 当返回的函数被最后一次调用后（也就是用户停止了某个连续的操作），
+		// 再过 delay 毫秒就执行 fn
+		timer = setTimeout(function () {
+			fn.apply(context, args)
+		}, delay)
+	}
+}
+
 function Translate() {
+	var gloGtk = '';
+	var gloToken = '';
 	var langdetect = function (query, cb) {
 		$.ajax({
 			url: 'http://fanyi.baidu.com/langdetect',
@@ -364,10 +396,51 @@ function Translate() {
 			success: function (json) {
 				cb(json);
 			}
-		});
-	};
-
-	$('#translateInput').bind("keyup change", function (event) {
+		})
+	}
+	var getSign = function (query, gtk) {
+		var C = gtk;
+		function a(r, o) {
+			for (var t = 0; t < o.length - 2; t += 3) {
+				var a = o.charAt(t + 2);
+				a = a >= "a" ? a.charCodeAt(0) - 87 : Number(a), a = "+" === o.charAt(t + 1) ? r >>> a : r << a, r = "+" === o.charAt(t) ? r + a & 4294967295 : r ^ a
+			}
+			return r
+		}
+		function n(r) {
+			var o = r.length;
+			o > 30 && (r = "" + r.substr(0, 10) + r.substr(Math.floor(o / 2) - 5, 10) + r.substr(-10, 10));
+			var t = void 0,
+				n = "" + String.fromCharCode(103) + String.fromCharCode(116) + String.fromCharCode(107);
+			t = null !== C ? C : (C = window[n] || "") || "";
+			for (var e = t.split("."), h = Number(e[0]) || 0, i = Number(e[1]) || 0, d = [], f = 0, g = 0; g < r.length; g++) {
+				var m = r.charCodeAt(g);
+				128 > m ? d[f++] = m : (2048 > m ? d[f++] = m >> 6 | 192 : (55296 === (64512 & m) && g + 1 < r.length && 56320 === (64512 & r.charCodeAt(g + 1)) ? (m = 65536 + ((1023 & m) << 10) + (1023 & r.charCodeAt(++g)), d[f++] = m >> 18 | 240, d[f++] = m >> 12 & 63 | 128) : d[f++] = m >> 12 | 224, d[f++] = m >> 6 & 63 | 128), d[f++] = 63 & m | 128)
+			}
+			for (var S = h, u = "" + String.fromCharCode(43) + String.fromCharCode(45) + String.fromCharCode(97) + ("" + String.fromCharCode(94) + String.fromCharCode(43) + String.fromCharCode(54)), l = "" + String.fromCharCode(43) + String.fromCharCode(45) + String.fromCharCode(51) + ("" + String.fromCharCode(94) + String.fromCharCode(43) + String.fromCharCode(98)) + ("" + String.fromCharCode(43) + String.fromCharCode(45) + String.fromCharCode(102)), s = 0; s < d.length; s++)
+				S += d[s], S = a(S, u);
+			return S = a(S, l), S ^= i, 0 > S && (S = (2147483647 & S) + 2147483648), S %= 1e6, S.toString() + "." + (S ^ h)
+		}
+		return n(query);
+	}
+	var fetchToken = function () {
+		$.get('http://fanyi.baidu.com/', function (data) {
+			var gtk = data.match(/window\.gtk\s=\s'(.*?)'/);
+			gtk = gtk[1];
+			var token = data.match(/\stoken:\s'(.*?)'/);
+			token = token[1];
+			chrome.storage.local.set({ "translate": {
+				gtk: gtk,
+				token: token,
+				updateAt: new Date().getTime()
+			}});
+			gloGtk = gtk;
+			gloToken = token;
+			//console.log('获取百度翻译配置', 'token:', token, 'gtk:', gtk);
+		})
+	}
+	var transapiAjax;
+	$('#translateInput').bind("keyup change", debounce(function (event) {
 		var query = $('#translateInput').val();
 		query = $.trim(query);
 		if (query != "") {
@@ -382,8 +455,9 @@ function Translate() {
 				} else {
 					to = "zh";
 				}
-
-				$.ajax({
+				var sign = getSign(query, gloGtk);
+				if (transapiAjax != null) transapiAjax.abort();
+				transapiAjax = $.ajax({
 					url: 'http://fanyi.baidu.com/v2transapi',
 					type: 'POST',
 					dataType: 'json',
@@ -392,7 +466,9 @@ function Translate() {
 						to: to,
 						transtype: 'realtime',
 						simple_means_flag: 3,
-						query: query
+						query: query,
+						sign: sign,
+						token: gloToken
 					},
 					success: function (data) {
 						var transResult = data.trans_result.data;
@@ -404,12 +480,21 @@ function Translate() {
 						});
 						result.text(restr);
 					}
-				});
+				})
 			});
 		} else {
 			$('#translateResult').text('');
 		}
-	});
+	}, 200))
+	
+	chrome.storage.local.get("translate", function (val) {
+		if (!val.translate || new Date().getTime() - val.translate.updateAt > 1000 * 60 * 60 * 10) {
+			fetchToken();
+		}else {
+			gloGtk = val.translate.gtk;
+			gloToken = val.translate.token;
+		}
+	})
 }
 
 function getBangumi() {

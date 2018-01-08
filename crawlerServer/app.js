@@ -13,7 +13,9 @@ var catchFirstUrl = 'https://anime-pictures.net',  //入口页面
   urlsArray = [], //存放爬取网址
   ImgArr = [], //存放爬取数据
   pageUrls = [],  //存放收集文章页面网站
-  pageNum = 5,  //要爬取文章的页数
+  pageNum = 100
+  
+  ,  //要爬取文章的页数
   startDate = new Date(), //开始时间
   endDate = false;  //结束时间
 
@@ -52,7 +54,7 @@ function start() {
             }
 
             //sres.text 里面存储着请求返回的 html 内容
-            if(sres){
+            if (sres) {
               var $ = cheerio.load(sres.text);
               //收集数据
               var res = $('#big_preview_cont>a').attr('href');
@@ -66,7 +68,7 @@ function start() {
       };
 
 
-      async.mapLimit(articleUrls, 3, function (url, callback) {
+      async.mapLimit(articleUrls, 10, function (url, callback) {
         reptileMove(url, callback);
       }, function (err, result) {
         fs.writeFile('./wallPaper/imageData.json', JSON.stringify(ImgArr), 'utf-8', function (err) {
@@ -95,7 +97,7 @@ function start() {
           // pres.text 里面存储着请求返回的 html 内容，将它传给 cheerio.load 之后
           // 就可以得到一个实现了 jquery 接口的变量，我们习惯性地将它命名为 `$`
           // 剩下就都是 jquery 的内容了
-          if(pres){
+          if (pres) {
             var $ = cheerio.load(pres.text);
             var curPageUrls = $('.img_block_big>a');
             for (var i = 0; i < curPageUrls.length; i++) {
@@ -112,7 +114,7 @@ function start() {
       }, delay * 2);
     }
 
-    async.mapLimit(pageUrls, 3, function (url, callback) {
+    async.mapLimit(pageUrls, 10, function (url, callback) {
       getPage(url, callback);
     }, function (err, result) {
       res.write('Page--OK!');

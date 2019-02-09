@@ -3,6 +3,12 @@ var catchFirstUrl = 'https://anime-pictures.net',
 	bing_link = 'https://bing.ioliu.cn/v1/rand';
 var currentImg;
 function Init() {
+	chrome.storage.local.get("preLoadAnime", function (val) {
+		if (val.preLoadAnime) {
+			let preloadEle = document.querySelector('#loadingPage');
+			new LGPreLoading(preloadEle);
+		}
+	})
 	if (navigator.onLine) {
 		chrome.storage.local.get("bossComming", function (val) {
 			if (val.bossComming == undefined || val.bossComming == false) {
@@ -58,8 +64,12 @@ function Init() {
 	loadTasks();
 	Translate();
 	getBangumi();
+	initLive2D();
 }
 
+function initLive2D() {
+	loadlive2d("live2d", "/assets/kesshouban_v2/model.json");
+}
 function getRandomImg(data) {
 	var randomNum = Math.random();
 	//提高在前面的概率
@@ -75,8 +85,7 @@ function getRandomImg(data) {
 		var finFlag = false;
 		setTimeout(function () {
 			if (!finFlag) fin();
-		}, 4000);
-		//tempImage.attr('src', currentImg).load(console.log(123));
+		}, 2500);
 
 		function fin() {
 			if (finFlag) return;
@@ -147,6 +156,16 @@ function initEvent() {
 				saveAs: false
 			});
 		}
+	});
+	$('#preLoadToggle').click(function (event) {
+		chrome.storage.local.get("preLoadAnime", function (val) {
+			if (val.preLoadAnime == undefined) {
+				chrome.storage.local.set({ "preLoadAnime": true });
+			} else {
+				chrome.storage.local.set({ "preLoadAnime": !Boolean(val.preLoadAnime) });
+			}
+		});
+		location.reload();
 	});
 
 	$('#todo').click(function (event) {
@@ -225,7 +244,7 @@ function initEvent() {
 			readBugumiData(weekday);
 		}
 	});
-	$('#AnimationToggle').click(function (event) {
+	$('#live2d').click(function (event) {
 		$('.send').animate({
 			opacity: 0,
 			top: -20
@@ -270,29 +289,42 @@ function initEvent() {
 	});
 }
 
-function getWeatherInfo() {
-	$.getJSON('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json', function (json) {
-		var province = json.province;
-		var city = json.city;
-		var url = 'http://wthrcdn.etouch.cn/weather_mini?city=' + city;
-		$.getJSON(url, function (json, textStatus) {
-			var data = {
-				city: province + " " + city,
-				temperature: json.data ? json.data.wendu : '',
-				tips: json.data ? json.data.ganmao : '',
-				aqi: json.data ? json.data.aqi : ''
-				// forecast:json.data.forecast //Todo
-			};
-			updateWeather(data);
-		});
-	});
-
+function getCityWeather(province, city){
+	var url = 'http://wthrcdn.etouch.cn/weather_mini?city=' + city;
 	var updateWeather = function (weatherData) {
 		$('#city').text(weatherData.city);
 		$('#temperature').text(weatherData.temperature);
 		$('#aqi').text(weatherData.aqi);
 	};
+	$.getJSON(url, function (json, textStatus) {
+		var data = {
+			city: province + " " + city,
+			temperature: json.data ? json.data.wendu : '',
+			tips: json.data ? json.data.ganmao : '',
+			aqi: json.data ? json.data.aqi : ''
+			// forecast:json.data.forecast //Todo
+		};
+		updateWeather(data);
+	});
 }
+function getWeatherInfo() {
+	chrome.storage.local.get("cityInfo", function (val) {
+		if(val.cityInfo == undefined){
+			$.getJSON('http://ip.360.cn/IPShare/info', function (json) {
+			var ip = json.ip;
+			$.getJSON('http://ip.taobao.com/service/getIpInfo.php?ip=' + ip, function (json) {
+				chrome.storage.local.set({ "cityInfo": {
+					city:json.data.city,
+					province: json.data.region
+				} });
+				getCityWeather(json.data.region, json.data.city);
+			})
+		})
+	}else{
+		getCityWeather(val.cityInfo.province, val.cityInfo.city);
+	}
+		
+})}
 
 function loadTasks() {
 	var todoCount = 0;
@@ -359,7 +391,7 @@ function addTask(taskContent) {
 * @param fn {Function}   实际要执行的函数
 * @param delay {Number}  延迟时间，也就是阈值，单位是毫秒（ms）
 *
-* @return {Function}     返回一个“去弹跳”了的函数
+* @return {Function}     返回防抖函数
 */
 function debounce(fn, delay) {
 
@@ -384,12 +416,13 @@ function debounce(fn, delay) {
 	}
 }
 
+//translate function learn from moonrailgun: https://github.com/moonrailgun
 function Translate() {
 	var gloGtk = '';
 	var gloToken = '';
 	var langdetect = function (query, cb) {
 		$.ajax({
-			url: 'http://fanyi.baidu.com/langdetect',
+			url: 'https://fanyi.baidu.com/langdetect',
 			type: 'POST',
 			dataType: 'json',
 			data: { query: query },
@@ -424,16 +457,18 @@ function Translate() {
 		return n(query);
 	}
 	var fetchToken = function () {
-		$.get('http://fanyi.baidu.com/', function (data) {
+		$.get('https://fanyi.baidu.com/', function (data) {
 			var gtk = data.match(/window\.gtk\s=\s'(.*?)'/);
 			gtk = gtk[1];
 			var token = data.match(/\stoken:\s'(.*?)'/);
 			token = token[1];
-			chrome.storage.local.set({ "translate": {
-				gtk: gtk,
-				token: token,
-				updateAt: new Date().getTime()
-			}});
+			chrome.storage.local.set({
+				"translate": {
+					gtk: gtk,
+					token: token,
+					updateAt: new Date().getTime()
+				}
+			});
 			gloGtk = gtk;
 			gloToken = token;
 			//console.log('获取百度翻译配置', 'token:', token, 'gtk:', gtk);
@@ -458,7 +493,7 @@ function Translate() {
 				var sign = getSign(query, gloGtk);
 				if (transapiAjax != null) transapiAjax.abort();
 				transapiAjax = $.ajax({
-					url: 'http://fanyi.baidu.com/v2transapi',
+					url: 'https://fanyi.baidu.com/v2transapi',
 					type: 'POST',
 					dataType: 'json',
 					data: {
@@ -471,6 +506,12 @@ function Translate() {
 						token: gloToken
 					},
 					success: function (data) {
+						if (data.error && data.error === 998) {
+							// token 过期， 重新请求token
+							fetchToken();
+							return;
+						}
+
 						var transResult = data.trans_result.data;
 						var result = $('#translateResult');
 						result.text('');
@@ -486,11 +527,11 @@ function Translate() {
 			$('#translateResult').text('');
 		}
 	}, 200))
-	
+
 	chrome.storage.local.get("translate", function (val) {
 		if (!val.translate || new Date().getTime() - val.translate.updateAt > 1000 * 60 * 60 * 10) {
 			fetchToken();
-		}else {
+		} else {
 			gloGtk = val.translate.gtk;
 			gloToken = val.translate.token;
 		}
@@ -538,7 +579,8 @@ function getBangumi() {
 						lastupdate_at: list[i].lastupdate_at,
 						play_count: list[i].play_count,
 						title: list[i].title,
-						url: 'http://www.bilibili.com' + list[i].url,
+						season_id: list[i].season_id,
+						//url: 'http://www.bilibili.com' + list[i].url,//20180313链接改为了http://bangumi.bilibili.com/anime/season_id的形式
 						weekday: list[i].weekday
 					};
 					weekday[temp.weekday].push(temp);
@@ -563,11 +605,12 @@ function readBugumiData(day) {
 		if (val.weekday[day] != undefined) {
 			$.each(val.weekday[day], function (index, el) {
 				var html = '<li class="bangumiItem"><div class="bangumiContain">';
-				html += '<a target="_blank" class="bangumiPreview" href="' + el.url + '">';
+				var animeUrl = 'http://bangumi.bilibili.com/anime/' + el.season_id;
+				html += '<a target="_blank" class="bangumiPreview" href="' + animeUrl + '">';
 				html += '<img src="' + el.cover + '" alt="' + el.title + '"></a>';
 				html += '<div class="bangumIntro">';
-				html += '<a href="' + el.url + '" target="_blank" title="' + el.title + '">';
-				html += '<p><span>' + el.title + '</span></p></a>';
+				html += '<a href="' + animeUrl + '" target="_blank" title="' + el.title + '">';
+				html += '<p><span class="animeTitle">' + el.title + '</span></p></a>';
 				html += '<p>最近更新：</p>';
 				if (el.lastupdate_at) {
 					html += '<p class="update-time">' + new Date(el.lastupdate_at).Format("MM月dd日hh:mm") + '</p>';

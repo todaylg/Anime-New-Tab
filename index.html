@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -8,20 +9,22 @@
 	<meta name="viewport" content="width=device-width">
 	<link rel="stylesheet" href="css/style.css">
 </head>
-<body>
 
+<body>
 	<div id="background"></div>
+	<canvas id="loadingPage" width="1920" height="1080"></canvas>
 	<div id="top-left">
-		<div id="weather"><!--Todo:图表化并做一周的天气预报-->
-		  <p><span id="temperature"></span>℃</p>
-		  <p id="city"></p>
-		  <p><span id="aqi"></span></p>
+		<div id="weather">
+			<!--Todo:图表化并做一周的天气预报-->
+			<p><span id="temperature"></span>℃</p>
+			<p id="city"></p>
+			<p><span id="aqi"></span></p>
 		</div>
 	</div>
 	<div id="top">
 		<div id="Animation">
 			<div class="tab_container">
-				<input id="tab1" type="radio" name="tabs"  data-weekday='1' data-insert='no'>
+				<input id="tab1" type="radio" name="tabs" data-weekday='1' data-insert='no'>
 				<label for="tab1"><span>周一</span></label>
 
 				<input id="tab2" type="radio" name="tabs" data-weekday='2' data-insert='no'>
@@ -35,37 +38,37 @@
 
 				<input id="tab5" type="radio" name="tabs" data-weekday='5' data-insert='no'>
 				<label for="tab5"><span>周五</span></label>
-				
+
 				<input id="tab6" type="radio" name="tabs" data-weekday='6' data-insert='no'>
 				<label for="tab6"><span>周六</span></label>
 
 				<input id="tab0" type="radio" name="tabs" data-weekday='0' data-insert='no'>
 				<label for="tab0"><span>周日</span></label>
-				<section id="content1" class="tab-content">
+				<section id="content1" class="tab-content auto">
 					<ul class="bangumiList"></ul>
 				</section>
 
-				<section id="content2" class="tab-content">
+				<section id="content2" class="tab-content auto">
 					<ul class="bangumiList"></ul>
 				</section>
 
-				<section id="content3" class="tab-content">
+				<section id="content3" class="tab-content auto">
 					<ul class="bangumiList"></ul>
 				</section>
 
-				<section id="content4" class="tab-content">
+				<section id="content4" class="tab-content auto">
 					<ul class="bangumiList"></ul>
 				</section>
 
-				<section id="content5" class="tab-content">
+				<section id="content5" class="tab-content auto">
 					<ul class="bangumiList"></ul>
 				</section>
 
-				<section id="content6" class="tab-content">
+				<section id="content6" class="tab-content auto">
 					<ul class="bangumiList"></ul>
 				</section>
 
-				<section id="content0" class="tab-content">
+				<section id="content0" class="tab-content auto">
 					<ul class="bangumiList"></ul>
 				</section>
 			</div>
@@ -73,11 +76,13 @@
 	</div>
 	<div id="top-right">
 		<div>
-			<img id="AnimationToggle" src="icon/战场原Tips.png" alt="看什么看！">
-				<div class="send">
+			<!-- <img id="AnimationToggle" src="icon/战场原Tips.png" alt="看什么看！">
+			 -->
+			<canvas id="live2d" width="170px" height="170px"></canvas>
+			<div class="send">
 				今天更新了什么呢？
-					<div class="arrow"></div>
-				</div>
+				<div class="arrow"></div>
+			</div>
 		</div>
 	</div>
 	<div id="center">
@@ -104,57 +109,32 @@
 		<div id="hidePanel">
 			<span id='hideSpan'>hidePanel</span>
 		</div>
+		<span id="preLoadToggle">preLoadAnime</span>
 		<div id="translate">
 			<span id='translateTitle'>Translate</span>
 			<span id='translatePanel'>
-				<input  id='translateInput' placeholder="翻译点啥好呢？"></input>
+				<input id='translateInput' placeholder="翻译点啥好呢？"></input>
 				<span id="translateResult"></span>
 			</span>
 		</div>
 		<span id="download">DownLoad</span>
 		<div id="todoPanel">
 			<div id="panel">
-			<div id='todoHeader'>
-				<span id='todoCount'></span>
+				<div id='todoHeader'>
+					<span id='todoCount'></span>
+				</div>
+				<div id='todoEmpty'></div>
+				<ol id='todoList'>
+				</ol>
+				<input id="todoNew" placeholder="New Todo"></input>
 			</div>
-			<div id='todoEmpty'></div>
-			<ol id='todoList'>
-			</ol>
-			<input id="todoNew" placeholder="New Todo"></input>
+			<span id="todo">Todo</span>
 		</div>
-		<span id="todo">Todo</span>
-		</div>
-		
-	</div>
-	<div id="loadingPage">
-		<svg id="loading">
-			<g>
-				<path class="ld-l" fill="#39C0C4" d="M43.6,33.2h9.2V35H41.6V15.2h2V33.2z"/>
-				<path class="ld-o" fill="#39C0C4" d="M74.7,25.1c0,1.5-0.3,2.9-0.8,4.2c-0.5,1.3-1.2,2.4-2.2,3.3c-0.9,0.9-2,1.6-3.3,2.2
-				c-1.3,0.5-2.6,0.8-4.1,0.8s-2.8-0.3-4.1-0.8c-1.3-0.5-2.4-1.2-3.3-2.2s-1.6-2-2.2-3.3C54.3,28,54,26.6,54,25.1s0.3-2.9,0.8-4.2
-				c0.5-1.3,1.2-2.4,2.2-3.3s2-1.6,3.3-2.2c1.3-0.5,2.6-0.8,4.1-0.8s2.8,0.3,4.1,0.8c1.3,0.5,2.4,1.2,3.3,2.2c0.9,0.9,1.6,2,2.2,3.3
-				C74.4,22.2,74.7,23.6,74.7,25.1z M72.5,25.1c0-1.2-0.2-2.3-0.6-3.3c-0.4-1-0.9-2-1.6-2.8c-0.7-0.8-1.6-1.4-2.6-1.9
-				c-1-0.5-2.2-0.7-3.4-0.7c-1.3,0-2.4,0.2-3.4,0.7c-1,0.5-1.9,1.1-2.6,1.9c-0.7,0.8-1.3,1.7-1.6,2.8c-0.4,1-0.6,2.1-0.6,3.3
-				c0,1.2,0.2,2.3,0.6,3.3c0.4,1,0.9,2,1.6,2.7c0.7,0.8,1.6,1.4,2.6,1.9c1,0.5,2.2,0.7,3.4,0.7c1.3,0,2.4-0.2,3.4-0.7
-				c1-0.5,1.9-1.1,2.6-1.9c0.7-0.8,1.3-1.7,1.6-2.7C72.4,27.4,72.5,26.3,72.5,25.1z"/>
-				<path class="ld-a" fill="#39C0C4" d="M78.2,35H76l8.6-19.8h2L95.1,35h-2.2l-2.2-5.2H80.4L78.2,35z M81.1,27.9h8.7l-4.4-10.5L81.1,27.9z"/>
-				<path class="ld-d" fill="#39C0C4" d="M98,15.2h6.6c1.2,0,2.5,0.2,3.7,0.6c1.2,0.4,2.4,1,3.4,1.9c1,0.8,1.8,1.9,2.4,3.1s0.9,2.7,0.9,4.3
-				c0,1.7-0.3,3.1-0.9,4.3s-1.4,2.3-2.4,3.1c-1,0.8-2.1,1.5-3.4,1.9c-1.2,0.4-2.5,0.6-3.7,0.6H98V15.2z M100,33.2h4
-				c1.5,0,2.8-0.2,3.9-0.7c1.1-0.5,2-1.1,2.8-1.8c0.7-0.8,1.3-1.6,1.6-2.6s0.5-2,0.5-3c0-1-0.2-2-0.5-3c-0.4-1-0.9-1.8-1.6-2.6
-				c-0.7-0.8-1.6-1.4-2.8-1.8c-1.1-0.5-2.4-0.7-3.9-0.7h-4V33.2z"/>
-				<path class="ld-i" fill="#39C0C4" d="M121.2,35h-2V15.2h2V35z"/>
-				<path class="ld-n" fill="#39C0C4" d="M140.5,32.1L140.5,32.1l0.1-16.9h2V35h-2.5l-11.5-17.1h-0.1V35h-2V15.2h2.5L140.5,32.1z"/>
-				<path class="ld-g" fill="#39C0C4" d="M162.9,18.8c-0.7-0.7-1.5-1.3-2.5-1.7c-1-0.4-2-0.6-3.3-0.6c-1.3,0-2.4,0.2-3.4,0.7s-1.9,1.1-2.6,1.9
-				c-0.7,0.8-1.3,1.7-1.6,2.8c-0.4,1-0.6,2.1-0.6,3.3c0,1.2,0.2,2.3,0.6,3.3c0.4,1,0.9,2,1.6,2.7c0.7,0.8,1.6,1.4,2.6,1.9
-				s2.2,0.7,3.4,0.7c1.1,0,2.1-0.1,3.1-0.4c0.9-0.2,1.7-0.5,2.3-0.9v-6h-4.6v-1.8h6.6v9c-1.1,0.7-2.2,1.1-3.5,1.5
-				c-1.3,0.3-2.5,0.5-3.9,0.5c-1.5,0-2.9-0.3-4.1-0.8s-2.4-1.2-3.3-2.2c-0.9-0.9-1.6-2-2.1-3.3s-0.8-2.7-0.8-4.2s0.3-2.9,0.8-4.2
-				c0.5-1.3,1.2-2.4,2.2-3.3c0.9-0.9,2-1.6,3.3-2.2c1.3-0.5,2.6-0.8,4.1-0.8c1.6,0,3,0.2,4.1,0.7s2.2,1.1,3,2L162.9,18.8z"/>
-			</g>
-		</svg>
-
-		<svg width='182px' height='182px' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="uil-ripple"><rect x="0" y="0" width="100" height="100" fill="none" class="bk"></rect><g> <animate attributeName="opacity" dur="4s" repeatCount="indefinite" begin="0s" keyTimes="0;0.33;1" values="1;1;0"></animate><circle cx="50" cy="50" r="40" stroke="#eeeeee" fill="none" stroke-width="2" stroke-linecap="round"><animate attributeName="r" dur="4s" repeatCount="indefinite" begin="0s" keyTimes="0;0.33;1" values="0;22;44"></animate></circle></g><g><animate attributeName="opacity" dur="4s" repeatCount="indefinite" begin="2s" keyTimes="0;0.33;1" values="1;1;0"></animate><circle cx="50" cy="50" r="40" stroke="#eeeeee" fill="none" stroke-width="2" stroke-linecap="round"><animate attributeName="r" dur="4s" repeatCount="indefinite" begin="2s" keyTimes="0;0.33;1" values="0;22;44"></animate></circle></g></svg>
 	</div>
 </body>
 <script src="lib/jquery-2.2.4.min.js"></script>
+<script src="js/LGPreLoading.js"></script>
+<script src="lib/live2d.min.js"></script>
 <script src="js/main.js"></script>
+
 </html>

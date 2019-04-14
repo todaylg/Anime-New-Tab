@@ -1,11 +1,14 @@
 var catchFirstUrl = 'https://anime-pictures.net',
 	//bing_link = 'http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN';
-	bing_link = 'https://bing.ioliu.cn/v1/rand';
+	// bing_link = 'https://bing.ioliu.cn/v1/rand';
+	bing_link = 'https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture';
 var currentImg;
 function Init() {
+	let preloadEle = document.querySelector('#loadingPage');
+	preloadEle.width = window.innerWidth;
+	preloadEle.height = window.innerHeight;
 	chrome.storage.local.get("preLoadAnime", function (val) {
 		if (val.preLoadAnime) {
-			let preloadEle = document.querySelector('#loadingPage');
 			new LGPreLoading(preloadEle);
 		}
 	})

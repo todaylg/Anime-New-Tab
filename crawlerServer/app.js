@@ -83,7 +83,7 @@ function start() {
     var curCountForPage = 0;
     function getPage(pageUrl, callback) {
       //延迟毫秒数
-      var delay = parseInt((Math.random() * 100000000) % 1000, 10);
+      var delay = parseInt((Math.random() * 1000000000) % 1000, 10);
       curCountForPage++;
       console.log('现在的并发数是', curCountForPage, '，正在抓取的是', pageUrl, '，间隔' + delay + '毫秒');
       superagent.get(pageUrl)

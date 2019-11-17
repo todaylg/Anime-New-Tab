@@ -196,7 +196,7 @@ body {
     width: 100%;
     text-align: center;
     -webkit-transform: translate(-50%, -50%);
-    opacity: 1;
+    opacity: 0;
 }
 
 #center h1 {
@@ -227,7 +227,7 @@ body {
     top: 72.5%;
     width: 100%;
     text-align: center;
-    opacity: 1;
+    opacity: 0;
 }
 
 #center-below h3 {
